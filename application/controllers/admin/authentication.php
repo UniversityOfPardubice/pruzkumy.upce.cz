@@ -106,6 +106,8 @@ class Authentication extends Survey_Common_Action
     public function logout()
     {
         App()->user->logout();
+        $afterLogout = new PluginEvent('afterLogout');
+        App()->getPluginManager()->dispatchEvent($afterLogout);
         App()->user->setFlash('loginmessage', gT('Logout successful.'));
         $this->getController()->redirect(array('/admin/authentication/sa/login'));
     }

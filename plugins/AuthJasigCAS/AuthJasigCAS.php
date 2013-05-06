@@ -32,16 +32,17 @@ class AuthJasigCAS extends AuthPluginBase
     parent::__construct($manager, $id);
     $this->subscribe('beforeLogin');
     $this->subscribe('newUserSession');
-  }
+    $this->subscribe('afterLogout');
 
-  public function beforeLogin() {
     $cas_host = $this->get('cas_host');
     $cas_port = (int)$this->get('cas_port');
     $cas_context = $this->get('cas_context');
     
     require_once 'phpCAS/CAS.php';
     phpCAS::client(CAS_VERSION_2_0, $cas_host, $cas_port, $cas_context);
-    
+  }
+
+  public function beforeLogin() {
     if ($this->get('ignore_cert', null, null, false)) {
       phpCAS::setNoCasServerValidation();
     } else {
@@ -63,5 +64,9 @@ class AuthJasigCAS extends AuthPluginBase
       return;
     }
     $this->setAuthFailure(self::ERROR_USERNAME_INVALID);
+  }
+  
+  public function afterLogout() {
+      phpCAS::logout();
   }
 }
