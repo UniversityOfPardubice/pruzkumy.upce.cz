@@ -139,7 +139,7 @@ class UserAction extends Survey_Common_Action
                 $from = Yii::app()->getConfig("siteadminname") . " <" . Yii::app()->getConfig("siteadminemail") . ">";
                 $extra = '';
                 $classMsg = '';
-                if (SendEmailMessage($body, $subject, $to, $from, Yii::app()->getConfig("sitename"), true, Yii::app()->getConfig("siteadminbounce"))) {
+                if (false) { //SendEmailMessage($body, $subject, $to, $from, Yii::app()->getConfig("sitename"), true, Yii::app()->getConfig("siteadminbounce"))) {
                     $extra .= "<br />" . $clang->gT("Username") . ": $new_user<br />" . $clang->gT("Email") . ": $new_email<br />";
                     $extra .= "<br />" . $clang->gT("An email with a generated password was sent to the user.");
                     $classMsg = 'successheader';

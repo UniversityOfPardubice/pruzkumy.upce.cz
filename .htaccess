@@ -1,5 +1,61 @@
 <IfModule mod_rewrite.c>
     RewriteEngine on
+    RewriteBase /
+
+    RewriteCond	%{HTTPS}	!on
+    RewriteRule	^(.*)$		https://%{HTTP_HOST}/$1	[R,QSA,L,NE]
+    
+    RewriteRule ^admin(/(admin.php)?)?$ /admin/authentication [R,L]
+
+    RewriteRule ^absolventi-phd/?$ /21686 [R,L]
+    RewriteRule ^bep/? /117717 [R,L]
+    RewriteRule ^cttz/? /671238 [R,L]
+    RewriteRule ^evropa[_-]2020/?$ /68739 [R,L]
+#was    RewriteRule ^ico/?$ /66869 [R,L]
+    RewriteRule ^ico/?$ /986686 [R,L]
+    RewriteRule ^internikomunikace1/?$ /591549 [R,L]
+    RewriteRule ^kluby/?$ /588714 [R,L]
+    RewriteRule ^poradenstvi/?$ /91412 [R,L]
+    RewriteRule ^unicom/presenting_in_english/? /96196 [R,L]
+    RewriteRule ^u3v/? /33412 [R,L]
+    RewriteRule ^uchazeci/?$ /725576 [R,L]
+    RewriteRule ^ict/?$ /592748 [R,L]
+    RewriteRule ^videoconferencing/?$ /823934 [R,L]
+    RewriteRule ^telefony2013/?$ /224938 [R,L]
+    RewriteRule ^jvs-zamestnanci/?$ /718541 [R,L]
+    RewriteRule ^jvs-studenti/?$ /528818 [R,L]
+    
+    RewriteRule ^dfjp-dalsi-vzdelavani/?$ /17182 [R,L]
+    RewriteRule ^dfjp-analyza-skolnich-spoju/?$ /775781 [R,L]
+    RewriteRule ^dfjp-volby-as,?/?$ /716972 [R,L]
+
+    RewriteRule ^fes-bezpecnostni-rizika/?$ /256877 [R,L]
+    
+    RewriteRule ^fcht-(ESF|esf)-pruzkum/?$ /833287 [R,L]
+
+    RewriteRule ^fzs-hodnoceni-absolventi/?$ /577264 [R,L]
+    RewriteRule ^fzs-hodnoceni-studenti/?$ /291629 [R,L]
+    RewriteRule ^fzs-kvalita-pece/?$ /478962 [R,L]
+    RewriteRule ^fzs-perioperacni-pece/?$ /528874 [R,L]
+    RewriteRule ^fzs-fotosoutez/?$ /216481 [R,L]
+    
+    RewriteRule ^lc-language-use/?$ /348522 [R,L]
+    
+    RewriteRule ^nemocnice/?$ /admin/authentication [R,L]
+    RewriteRule ^nemocnice-ambulantni/?$ /597895 [R,L]
+    RewriteRule ^nemocnice-hospitalizace/?$ /298363 [R,L]
+    RewriteRule ^nemocnice-porodnicke/?$ /322295 [R,L]
+    RewriteRule ^nemocnice-ldn/?$ /718744 [R,L]
+    RewriteRule ^nemocnice-ldn-15/?$ /592979 [R,L]
+    RewriteRule ^nemocnice-ldn-ambulance/?$ /726278 [R,L]
+    RewriteRule ^nemocnice-ldn-hospitalizace/?$ /222617 [R,L]
+    RewriteRule ^nemocnice-navod/?$ http://youtu.be/TcUOAPBPdrc [R,L]
+    RewriteRule ^nemocnice-ambulantniKS/?$ /782521 [R,L]
+    RewriteRule ^nemocnice-hospitalizaceKS/?$ /492221 [R,L]
+    RewriteRule ^nemocnice-porodnickeKS/?$ /363915 [R,L]
+    RewriteRule ^nemocnice-ldnKS/?$ /428223 [R,L]
+
+    RewriteRule ^kompetence/?.*$ http://kompetence.upce.cz/ [R,L]
 
     # if a directory or a file exists, use it directly
     RewriteCond %{REQUEST_FILENAME} !-f

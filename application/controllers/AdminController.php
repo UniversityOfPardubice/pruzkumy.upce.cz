@@ -126,6 +126,11 @@ class AdminController extends LSYii_Controller
 
         if (!empty($this->user_id))
             $this->_GetSessionUserRights($this->user_id);
+        switch($this->lang->langcode) {
+          case 'cs':
+            setLocale(LC_ALL, 'cs_CZ.UTF-8');
+            break;
+        }
     }
 
     /**

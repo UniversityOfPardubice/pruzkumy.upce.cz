@@ -277,7 +277,7 @@ class pdf extends TCPDF {
     $this->creator = $this->_config['creator'];
 
     # font settings
-    #$this->SetFont($this->_config['page_font'], '', $this->_config['page_font_size']);
+    $this->SetFont($this->_config['page_font'], '', $this->_config['page_font_size']);
 
     # image settings
     $this->setImageScale($this->_config['image_scale']);

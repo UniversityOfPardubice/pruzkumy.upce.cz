@@ -143,6 +143,8 @@
 
 		define('APPPATH', BASEPATH . $application_folder . '/');
 	}
+    require_once('../database-config.php');
+
     if (file_exists(APPPATH.'config'.DIRECTORY_SEPARATOR.'config.php'))
     {
         $aSettings= include(APPPATH.'config'.DIRECTORY_SEPARATOR.'config.php');
