@@ -13,6 +13,7 @@
 
 function loadanswers()
 {
+    Yii::trace('start', 'survey.loadanswers');
     global $surveyid;
     global $thissurvey, $thisstep;
     global $clienttoken;
@@ -473,9 +474,9 @@ function submittokens($quotaexit=false)
     $today = dateShift(date("Y-m-d H:i:s"), "Y-m-d H:i", Yii::app()->getConfig("timeadjust"));
 
     // check how many uses the token has left
-	$token = Token::model($surveyid)->findByAttributes(array('token' => $clienttoken));
+    $token = Token::model($surveyid)->findByAttributes(array('token' => $clienttoken));
 
-	if ($quotaexit==true)
+    if ($quotaexit==true)
     {
         $token->completed = 'Q';
         $token->usesleft--;
@@ -518,7 +519,6 @@ function submittokens($quotaexit=false)
          //   if($token->completed == "Y" || $token->completed == $today)
 //            {
                 $from = "{$thissurvey['adminname']} <{$thissurvey['adminemail']}>";
-                $to = $token->email;
                 $subject=$thissurvey['email_confirm_subj'];
 
                 $aReplacementVars=array();
@@ -568,7 +568,8 @@ function submittokens($quotaexit=false)
                 }
 
                 //Only send confirmation email if there is a valid email address
-            if (validateEmailAddress($to)) {
+            $sToAddress=validateEmailAddresses($token->email);
+            if ($sToAddress) {
                 $aAttachments = unserialize($thissurvey['attachments']);
     
                 $aRelevantAttachments = array();
@@ -587,7 +588,7 @@ function submittokens($quotaexit=false)
                         }
                     }
                 }
-                SendEmailMessage($message, $subject, $to, $from, $sitename, $ishtml, null, $aRelevantAttachments);
+                SendEmailMessage($message, $subject, $sToAddress, $from, $sitename, $ishtml, null, $aRelevantAttachments);
             }
      //   } else {
                 // Leave it to send optional confirmation at closed token
@@ -656,6 +657,7 @@ function sendSubmitNotifications($surveyid)
         $aRecipient=explode(";", ReplaceFields($thissurvey['emailnotificationto'],array('ADMINEMAIL' =>$thissurvey['adminemail'] ), true));
         foreach($aRecipient as $sRecipient)
         {
+            $sRecipient=trim($sRecipient);
             if(validateEmailAddress($sRecipient))
             {
                 $aEmailNotificationTo[]=$sRecipient;
@@ -674,6 +676,7 @@ function sendSubmitNotifications($surveyid)
         $aRecipient=explode(";", ReplaceFields($thissurvey['emailresponseto'],array('ADMINEMAIL' =>$thissurvey['adminemail'] ), true));
         foreach($aRecipient as $sRecipient)
         {
+            $sRecipient=trim($sRecipient);
             if(validateEmailAddress($sRecipient))
             {
                 $aEmailResponseTo[]=$sRecipient;
@@ -689,7 +692,6 @@ function sendSubmitNotifications($surveyid)
         {
             if (substr($sFieldname,0,4)=='gid_')
             {
-
                 $ResultTableHTML .= "\t<tr class='printanswersgroup'><td colspan='2'>{$fname[0]}</td></tr>\n";
                 $ResultTableText .="\n{$fname[0]}\n\n";
             }
@@ -700,7 +702,7 @@ function sendSubmitNotifications($surveyid)
             }
             else
             {
-                $ResultTableHTML .= "\t<tr class='printanswersquestion'><td>{$fname[0]} {$fname[1]}</td><td class='printanswersanswertext'>{$fname[2]}</td></tr>";
+                $ResultTableHTML .= "\t<tr class='printanswersquestion'><td>{$fname[0]} {$fname[1]}</td><td class='printanswersanswertext'>".CHtml::encode($fname[2])."</td></tr>\n";
                 $ResultTableText .="     {$fname[0]} {$fname[1]}: {$fname[2]}\n";
             }
         }
@@ -709,7 +711,8 @@ function sendSubmitNotifications($surveyid)
         $ResultTableText .= "\n\n";
         if ($bIsHTML)
         {
-            $aReplacementVars['ANSWERTABLE']=$ResultTableHTML;
+            $filter = new CHtmlPurifier();
+            $aReplacementVars['ANSWERTABLE']=$filter->purify($ResultTableHTML);
         }
         else
         {
@@ -842,6 +845,7 @@ function submitfailed($errormsg='')
 */
 function buildsurveysession($surveyid,$preview=false)
 {
+    Yii::trace('start', 'survey.buildsurveysession');
     global $secerror, $clienttoken;
     global $tokensexist;
     //global $surveyid;
@@ -852,7 +856,7 @@ function buildsurveysession($surveyid,$preview=false)
     $languagechanger=makeLanguageChangerSurvey($sLangCode);
     if(!$preview)
         $preview=Yii::app()->getConfig('previewmode');
-	$thissurvey = getSurveyInfo($surveyid,$sLangCode);
+    $thissurvey = getSurveyInfo($surveyid,$sLangCode);
 
     $_SESSION['survey_'.$surveyid]['templatename']=validateTemplateDir($thissurvey['template']);
     $_SESSION['survey_'.$surveyid]['templatepath']=getTemplatePath($_SESSION['survey_'.$surveyid]['templatename']).DIRECTORY_SEPARATOR;
@@ -1009,12 +1013,12 @@ function buildsurveysession($surveyid,$preview=false)
 
         //check if token actually does exist
         // check also if it is allowed to change survey after completion
-		if ($thissurvey['alloweditaftercompletion'] == 'Y' ) {
+        if ($thissurvey['alloweditaftercompletion'] == 'Y' ) {
             $oTokenEntry = Token::model($surveyid)->findByAttributes(array('token'=>$clienttoken));
         } else {
             $oTokenEntry = Token::model($surveyid)->usable()->incomplete()->findByAttributes(array('token' => $clienttoken));
         }
-		if (!isset($oTokenEntry))
+        if (!isset($oTokenEntry))
         {
             //TOKEN DOESN'T EXIST OR HAS ALREADY BEEN USED. EXPLAIN PROBLEM AND EXIT
 
@@ -1046,15 +1050,15 @@ function buildsurveysession($surveyid,$preview=false)
         isset($_SESSION['survey_'.$surveyid]['secanswer']) &&
         $loadsecurity == $_SESSION['survey_'.$surveyid]['secanswer'])
         {          
-			if ($thissurvey['alloweditaftercompletion'] == 'Y' )
+            if ($thissurvey['alloweditaftercompletion'] == 'Y' )
             {
                 $oTokenEntry = Token::model($surveyid)->findByAttributes(array('token'=> $clienttoken));
             }
             else
             {
                 $oTokenEntry = Token::model($surveyid)->incomplete()->findByAttributes(array(
-					'token' => $clienttoken
-				));
+                    'token' => $clienttoken
+                ));
            }
             if (!isset($oTokenEntry))
             {
@@ -1176,26 +1180,16 @@ function buildsurveysession($surveyid,$preview=false)
     unset($_SESSION['survey_'.$surveyid]['groupReMap']);
     $_SESSION['survey_'.$surveyid]['fieldnamesInfo'] = Array();
 
-
-    //RL: multilingual support
-    if (isset($_GET['token']) && tableExists('{{tokens_'.$surveyid.'}}'))
-    {
-
-        //get language from token (if one exists)
-        $tkquery2 = "SELECT * FROM {{tokens_".$surveyid."}} WHERE token='".$clienttoken."' AND (completed = 'N' or completed='')";
-        //echo $tkquery2;
-        $result = dbExecuteAssoc($tkquery2) or safeDie ("Couldn't get tokens<br />$tkquery<br />");    //Checked
-        foreach ($result->readAll() as $rw)
-        {
-            $tklanguage=$rw['language'];
-        }
-    }
+    // Multi lingual support order : by REQUEST, if not by Token->language else by survey default language 
     if (returnGlobal('lang',true))
     {
         $language_to_set=returnGlobal('lang',true);
-    } elseif (isset($tklanguage))
+    }
+    elseif (isset($oTokenEntry) && $oTokenEntry)
     {
-        $language_to_set=$tklanguage;
+        // If survey have token : we have a $oTokenEntry
+        // Can use $oTokenEntry = Token::model($surveyid)->findByAttributes(array('token'=>$clienttoken)); if we move on another function : this par don't validate the token validity
+        $language_to_set=$oTokenEntry->language;
     }
     else
     {
@@ -1248,7 +1242,7 @@ function buildsurveysession($surveyid,$preview=false)
     }
 
 
-    if ($totalquestions == 0)	//break out and crash if there are no questions!
+    if ($totalquestions == 0)    //break out and crash if there are no questions!
     {
         sendCacheHeaders();
         doHeader();
@@ -1271,7 +1265,7 @@ function buildsurveysession($surveyid,$preview=false)
     }
 
     //Perform a case insensitive natural sort on group name then question title of a multidimensional array
-    //	usort($arows, 'groupOrderThenQuestionOrder');
+    //    usort($arows, 'groupOrderThenQuestionOrder');
 
     //3. SESSION VARIABLE - insertarray
     //An array containing information about used to insert the data into the db at the submit stage
@@ -1488,17 +1482,17 @@ function buildsurveysession($surveyid,$preview=false)
             $_SESSION['survey_'.$surveyid]['insertarray'][]=$field['fieldname'];
             //fieldarray ARRAY CONTENTS -
             //            [0]=questions.qid,
-            //			[1]=fieldname,
-            //			[2]=questions.title,
-            //			[3]=questions.question
-            //                 	[4]=questions.type,
-            //			[5]=questions.gid,
-            //			[6]=questions.mandatory,
-            //			[7]=conditionsexist,
-            //			[8]=usedinconditions
-            //			[8]=usedinconditions
-            //			[9]=used in group.php for question count
-            //			[10]=new group id for question in randomization group (GroupbyGroup Mode)
+            //            [1]=fieldname,
+            //            [2]=questions.title,
+            //            [3]=questions.question
+            //                     [4]=questions.type,
+            //            [5]=questions.gid,
+            //            [6]=questions.mandatory,
+            //            [7]=conditionsexist,
+            //            [8]=usedinconditions
+            //            [8]=usedinconditions
+            //            [9]=used in group.php for question count
+            //            [10]=new group id for question in randomization group (GroupbyGroup Mode)
 
             if (!isset($_SESSION['survey_'.$surveyid]['fieldarray'][$field['sid'].'X'.$field['gid'].'X'.$field['qid']]))
             {
@@ -1552,22 +1546,22 @@ function buildsurveysession($surveyid,$preview=false)
     $startingValues=array();
     if (isset($_GET))
     {
-		foreach ($_GET as $k=>$v)
+        foreach ($_GET as $k=>$v)
         {
-			if (!in_array($k,$reservedGetValues) && isset($_SESSION['survey_'.$surveyid]['fieldmap'][$k]))
+            if (!in_array($k,$reservedGetValues) && isset($_SESSION['survey_'.$surveyid]['fieldmap'][$k]))
             {
                 $startingValues[$k] = $v;
             }
-			else
-			{   // Search question codes to use those for prefilling.
-				foreach($_SESSION['survey_'.$surveyid]['fieldmap'] as $sgqa => $details)
-				{
-					if ($details['title'] == $k)
-					{
-						$startingValues[$sgqa] = $v;
-					}
-				}
-			}
+            else
+            {   // Search question codes to use those for prefilling.
+                foreach($_SESSION['survey_'.$surveyid]['fieldmap'] as $sgqa => $details)
+                {
+                    if ($details['title'] == $k)
+                    {
+                        $startingValues[$sgqa] = $v;
+                    }
+                }
+            }
         }
     }
     $_SESSION['survey_'.$surveyid]['startingValues']=$startingValues;
@@ -1606,6 +1600,7 @@ function buildsurveysession($surveyid,$preview=false)
             }
         }
     }
+    Yii::trace('end', 'survey.buildsurveysession');
 }
 
 /**
@@ -1889,12 +1884,12 @@ function UpdateGroupList($surveyid, $language)
 */
 function UpdateFieldArray()
 {
-	global $surveyid;
-	$clang = Yii::app()->lang;
+    global $surveyid;
+    $clang = Yii::app()->lang;
 
     if (isset($_SESSION['survey_'.$surveyid]['fieldarray']))
     {
-		foreach ($_SESSION['survey_'.$surveyid]['fieldarray'] as $key => $value)
+        foreach ($_SESSION['survey_'.$surveyid]['fieldarray'] as $key => $value)
         {
             $questionarray = &$_SESSION['survey_'.$surveyid]['fieldarray'][$key];
             $query = "SELECT title, question FROM {{questions}} WHERE qid=".$questionarray[0]." AND language='".$_SESSION['survey_'.$surveyid]['s_lang']."'";
@@ -2140,7 +2135,7 @@ function GetReferringUrl()
 */
 function display_first_page() {
     global $token, $surveyid, $thissurvey, $navigator;
-	$totalquestions = $_SESSION['survey_'.$surveyid]['totalquestions'];
+    $totalquestions = $_SESSION['survey_'.$surveyid]['totalquestions'];
 
     $clang = Yii::app()->lang;
 
@@ -2245,7 +2240,6 @@ function SetSurveyLanguage($surveyid, $language)
         $clang = new limesurvey_lang($_SESSION['survey_'.$surveyid]['s_lang']);
         $thissurvey=getSurveyInfo($surveyid, @$_SESSION['survey_'.$surveyid]['s_lang']);
         Yii::app()->loadHelper('surveytranslator');
-        $_SESSION['dateformats'] = getDateFormatData($thissurvey['surveyls_dateformat'],$_SESSION['survey_'.$surveyid]['s_lang']);
         LimeExpressionManager::SetEMLanguage($_SESSION['survey_'.$surveyid]['s_lang']);
     }
     else

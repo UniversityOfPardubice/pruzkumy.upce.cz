@@ -1614,6 +1614,29 @@ function validateEmailAddress($sEmailAddress){
     return false;
 }
 
+/**
+* Validate an list of email addresses - either as array or as semicolon-limited text
+* @returns List with valid email addresses - invalid email addresses are filtered - false if none of the email addresses are valid
+* 
+* @param mixed $sEmailAddresses  Email address to check
+*/
+function validateEmailAddresses($aEmailAddressList){
+  $aOutList=false;
+  if (!is_array($aEmailAddressList))
+  {
+     $aEmailAddressList=explode(';',$aEmailAddressList);
+  }
+  foreach ($aEmailAddressList as $sEmailAddress)
+  {
+      $sEmailAddress= trim($sEmailAddress);
+      if (validateEmailAddress($sEmailAddress)){
+         $aOutList=$sEmailAddress; 
+      }
+  }
+  return $aOutList;
+}
+
+
 function validateTemplateDir($sTemplateName)
 {
     $usertemplaterootdir = Yii::app()->getConfig('usertemplaterootdir');
@@ -1820,12 +1843,6 @@ function createFieldMap($surveyid, $style='short', $force_refresh=false, $questi
         $fieldmap["startlanguage"]['question']=$clang->gT("Start language");
         $fieldmap["startlanguage"]['group_name']="";
     }
-
-    // Select which question IDs have default values
-    $_aDefaultValues = DefaultValue::model()->with(array('question' => array('condition' => 'question.sid=' . $surveyid)))->findAll();
-    $aDefaultValues = array();
-    foreach ($_aDefaultValues as $k => $v)
-        $aDefaultValues[] = $v->qid;
 
     //Check for any additional fields for this survey and create necessary fields (token and datestamp and ipaddr)
     $prow = Survey::model()->findByPk($surveyid)->getAttributes(); //Checked
@@ -4738,7 +4755,7 @@ function translateLinks($sType, $iOldSurveyID, $iNewSurveyID, $sString)
         $replace = Yii::app()->getConfig("publicurl")."upload/labels/{$iNewSurveyID}/";
         return preg_replace('#'.$pattern.'#', $replace, $sString);
     }
-    else // unkown type
+    else // unknown type
     {
         return $sString;
     }
@@ -5489,12 +5506,13 @@ function getQuotaCompletedCount($iSurveyId, $quotaid)
         {
             if(count($aValue)==1)
             {
-                $criteria->addCondition("{$fieldname} = :{$fieldname}");
-                $aParams[":{$fieldname}"]=$aValue[0];
+                // Quote columnName : starting with number broke mssql
+                $criteria->addCondition(Yii::app()->db->quoteColumnName($fieldname)." = :field{$fieldname}");
+                $aParams[":field{$fieldname}"]=$aValue[0];
             }
             else
             {
-                $criteria->addInCondition($fieldname,$aValue); // NO need params : addInCondition bind automatically
+                $criteria->addInCondition(Yii::app()->db->quoteColumnName($fieldname),$aValue); // NO need params : addInCondition bind automatically
             }
             // We can use directly addInCondition, but don't know what is speediest.
         }
