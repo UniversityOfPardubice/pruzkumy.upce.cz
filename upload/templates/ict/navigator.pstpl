@@ -1,0 +1,8 @@
+<table class="navigator-table">
+	<tr>
+		<td align="left" nowrap="nowrap" width="33%">{CLEARALL}</td>
+        <td align="center" nowrap="nowrap" width="33%">{SAVE}</td>
+		<td align="right" nowrap="nowrap" width="33%">{NAVIGATOR}</td>
+	</tr>
+</table>
+<p style="text-align:center"><img src="{TEMPLATEURL}OPVK_hor_zakladni_logolink_cz_UPCE.png" alt="Logolink eduICT"/></p>

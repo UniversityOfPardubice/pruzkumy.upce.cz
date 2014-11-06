@@ -1,0 +1,22 @@
+  <div style="background-color: red; color: white; font-weight: bold; font-size: 120%; padding: 5px; text-align: center">Projekt ICT rozvoj zaměstnanců UPa a podpora řízení vzdělávání CZ.1.07/2.2.00/15.0344</div>
+<!--
+	<table width="100%" cellpadding="2">
+		<tr>
+			<td valign="middle" align="left">&nbsp;</td>
+			<td valign="bottom" align="center" width="100%">
+				<table width="100%">
+					<tr>
+						<td class="survey-name">{SURVEYNAME}</td>
+					</tr>
+					<tr>
+						<td class="graph">{PERCENTCOMPLETE}</td>
+					</tr>
+					<tr>
+						<td align="center">{LANGUAGECHANGER}</td>
+					</tr>
+				</table>
+			</td>
+			<td valign="bottom" align="right" height="100%" width="100%"></td>
+		</tr>
+	</table>
+-->

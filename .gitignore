@@ -1,8 +1,6 @@
 .settings
 .project
-/upload/surveys/*
 /styles/gringegreen/images/Thumbs.db
-/upload/templates/*
 /tmp/runtime/HTML
 /application/controllers/admin/updater.php
 /tmp/*.html

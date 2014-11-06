@@ -1,0 +1,29 @@
+{CHECKJAVASCRIPT}
+  <div style="background-color: red; color: white; font-weight: bold; font-size: 120%; padding: 5px; text-align: center">Projekt ICT rozvoj zaměstnanců UPa a podpora řízení vzdělávání CZ.1.07/2.2.00/15.0344</div>
+	<table width="100%" cellpadding="2">
+<!--
+		<tr>
+			<td valign="middle" align="left"><a href="http://projekty.upce.cz/eduict/" target="_blank"><img src="{TEMPLATEURL}logo_ICT_barevne.png" alt="Logo Image" /></a></td>
+			<td valign="bottom" align="center" width="100%">
+				<table width="100%">
+					<tr>
+						<td class="survey-name"><strong>{SURVEYNAME}</td>
+					</tr>
+					<tr>
+						<td  align="center">{LANGUAGECHANGER}</td>
+					</tr>
+				</table>
+			</td>
+		    <td valign="bottom" align="right" height="100%" width="100%"></td>
+		</tr>
+-->
+		<tr>
+			<td colspan="2" align="center">
+				<table class="welcome-table" width="80%">
+					<tr>
+						<td>{WELCOME}<br /> <br /></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
