@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 $worksheets = array(1, 2, 3);
 
@@ -44,10 +44,10 @@ foreach ($worksheets as $worksheetId) {
     $puvodceJiny = array();
 
     if (!isset($oddeleniMap[$oddeleni])) {
-      die('Neznámé oddělení "' . $oddeleni . '"');
+      throw new Exception('Neznámé oddělení "' . $oddeleni . '"');
     }
     if (!isset($typyInfekciMap[$typInfekce])) {
-      die('Neznámý typ infekce "' . $typInfekce. '"');
+      throw new Exception('Neznámý typ infekce "' . $typInfekce. '"');
     }
 
     $puvodci = array();
@@ -56,7 +56,7 @@ foreach ($worksheets as $worksheetId) {
       $p = trim($p);
       if ($p) {
         if (!isset($puvodciMap[$p])) {
-          die('Neznámý původce "' . $p . '"');
+          throw new Exception('Neznámý původce "' . $p . '"');
         }
         if (is_array($puvodciMap[$p])) {
           $puvodci[] = $puvodciMap[$p]['puvodce'];
@@ -79,7 +79,7 @@ foreach ($worksheets as $worksheetId) {
       $r = trim($r);
       if ($r) {
         if (!isset($rezistenceMap[$r])) {
-          die('Neznámá rezistence "' . $r . '"');
+          throw new Exception('Neznámá rezistence "' . $r . '"');
         }
         if (is_array($rezistenceMap[$r])) {
           if (isset($rezistenceMap[$r]['rezistence'])) {
@@ -105,7 +105,7 @@ foreach ($worksheets as $worksheetId) {
     } elseif (is_numeric($datumVzniku)) {
       $datumVzniku=($datumVzniku - 25569) * 86400;
     } else {
-      die('Neznámý formát data "' . $datumVzniku . '"');
+      throw new Exception('Neznámý formát data "' . $datumVzniku . '"');
     }
     $data[] = array(
       'oddeleni'=>$oddeleniMap[$oddeleni]['oddeleni'],

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 $odbornostiMap = array(
   '1H1' => array('odbornost'=>'1H1', 'typPece'=>'S', 'oddeleni'=>'Inter'),
   '1I1' => array('odbornost'=>'1I1', 'typPece'=>'I', 'oddeleni'=>'Inter'),
@@ -32,6 +32,7 @@ $typyInfekciMap = array(
   'dolní dýchací cesty'=>'IRT',
   'dýchacího traktu'=>'IRT',
   'bronchopneumonioe'=>'IRT',
+  'pneumonie'=>'IRT',
   'infekce v místě chirurgického výkonu'=>'IMChV',
   'IMC'=>'IMChV',
   'v místě chirurgického výkonu'=>'IMChV',
@@ -48,6 +49,7 @@ $typyInfekciMap = array(
   'rotavirová enteritida'=>'GENT',
   'enterokolitida'=>'GENT',
   'CDI'=>'GENT',
+  'Pseudomembranozní kolitida'=>'GENT',
   'jiná'=>'Jina',
   'ranná'=>'Jina',
   'dekubit'=>'Jina',
@@ -60,6 +62,7 @@ $puvodciMap = array(
   'Streptococcus pyogenes'=>'StreptococcusPyogene',
   'Streptococcus pneumoniae'=>'StreptococcusPneumon',
   'Streptococcus sp. jiný'=>'Streptococcus',
+  'Streptococcus species'=>'Streptococcus',
   'Enterococcus faecalis'=>'EnterococcusFaecalis',
   'Enterococcus faecium'=>'EnterococcusFaecium',
   'Enterococcus sp. jiný'=>'Enterococcus',
@@ -94,6 +97,7 @@ $puvodciMap = array(
   'Pseudomonas aeruginosa'=>'PseudomansAeruginosa',
   'Pseudomonas sp. jiná'=>'Pseudomanas',
   'Acinetobacter baumanii'=>'AcinetobacterBaumani',
+  'Acinetobacter species'=>'Acinetobacter',
   'Acinetobacter sp. jiný'=>'Acinetobacter',
   'Acinetobacter sp.'=>'Acinetobacter',
   'Acinetobacter'=>'Acinetobacter',
@@ -101,6 +105,7 @@ $puvodciMap = array(
   'Candida crusei'=>'CandidaCrusei',
   'Candida glabrata'=>'CandidaGlabrata',
   'Candida tropicalis'=>'CandidaTropicalis',
+  'Candida species'=>'Candida',
   'Candida sp. jiná'=>'Candida',
   'Candida non albicans'=>'Candida',
   'Haemophilus influenzae'=>'HaemphilusInfluenzae',
@@ -116,8 +121,10 @@ $puvodciMap = array(
   'Klebsiella pneumoniae subsp. pneumoniae'=>'KlebsiellaPneumoniae',
   'Staphylococcus aureus subsp. aureus'=>'StaphylococcusAureus',
   'Staphylococcus aureus MRSA'=>'StaphylococcusAureus',
+  'Staphylococcus aureus Eflux MLSB MRSA'=>'StaphylococcusAureus',
   'staphylococcus epidermidis'=>'StaphylococcusEpider',
   'Staphyloccocus hominis'=>'StaphylococcusHomini',
+  'Staphylococcus haemolyticus MRCNS MLSB'=>'StaphylococcusHaemol',
   'Klebsiellapneumoniae.'=>'KlebsiellaPneumoniae',
   'Klebsiella pnuESBLemoniae'=>'KlebsiellaPneumoniae',
   'Klebsiella pneuESBLmoniae'=>'KlebsiellaPneumoniae',
@@ -131,6 +138,8 @@ $puvodciMap = array(
   'Escherichia coli haemolytické' => 'EscherichiaColi',
   'Streptococcus anginosus'=>'Streptococcus',
   'Streptococcus agalactiae'=>'Streptococcus',
+  'Streptococcus constelatus'=>'Streptococcus',
+  'Pseuomonas aeruginosa'=>'PseudomansAeruginosa',
   
   'Clostridium'=>'ClostridiumDifficile',//???
   'Clostridiun diffcile'=>'ClostridiumDifficile',
@@ -140,9 +149,11 @@ $puvodciMap = array(
   'Enterobacter sp.'=>'Enterobacter',
   'Enterobacter'=>'Enterobacter',
   'Enterobacter species'=>'Enterobacter',
+  'Enterobacter hormaechei'=>'Enterobacter',
   'Proteus'=>'Proteus',
   'Enterococcus'=>'Enterococcus',
   'Enterococcus species'=>'Enterococcus',
+  'Enterococcus avium'=>'Enterococcus',
   'Pseudomonas'=>'Pseudomanas',
   'Morganella'=>'Morganella',
   'Candida'=>'Candida',
@@ -169,6 +180,7 @@ $puvodciMap = array(
   'neznámo'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'neznámo'),
   'Clostridium perfringens'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'Clostridium perfringens'),
   'Moraxella'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'Moraxella'),
+  'Moraxella catarhalis'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'Moraxella catarhalis'),
   'Citrobacter'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'Citrobacter'),
   'Corynebakter'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'Corynebakter'),
   'uroinfekce'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'Uroinfekce'),
@@ -176,6 +188,9 @@ $puvodciMap = array(
   'Burkholderia cepacia'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'Burkholderia cepacia'),
   'Providentia stuartii'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'Providentia stuartii'),
   'Seratia marcescens'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'Serratia marcescens'),
+  'Corynebacterium aurimucosum'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'Corynebacterium aurimucosum'),
+  'Campylobacter jejuni subsp. jejuni'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'Campylobacter jejuni subsp. jejuni'),
+  'Stenotrofomonás maltophilia'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'Stenotrofomonás maltophilia'),
   
   'StaphAureus'=>'StaphylococcusAureus',
   'ProtMira'=>'ProteusMirabilis',
@@ -199,6 +214,7 @@ $puvodciMap = array(
   'SerraMarces'=>'SerratiaMarcescens',
   'CandGlab'=>'CandidaGlabrata',
   'EscherColi'=>'EscherichiaColi',
+  'SalmEnter'=>'SalmonellaEnteritidi',
 
   'MRSA'=>array('puvodce'=>'StaphylococcusAureus', 'rezistence'=>array('MRSA')),
   'Methicilin/Oxacilin rezistentní Staph.aureus-MRSA'=>array('puvodce'=>'StaphylococcusAureus', 'rezistence'=>array('MRSA')),
@@ -208,6 +224,9 @@ $puvodciMap = array(
   'nediagnostikován'=>'',
   'dosud není kultivace' => '',
   'není určen' => '',
+  'neg' => '',
+  'nevíme' => '',
+  'kultivace nebyla' => '',
 );
 
 $rezistenceMap = array(
