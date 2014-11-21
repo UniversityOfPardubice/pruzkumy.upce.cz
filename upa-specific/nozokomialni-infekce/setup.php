@@ -116,8 +116,10 @@ $puvodciMap = array(
   'Klebsiella pneumoniae subsp. pneumoniae'=>'KlebsiellaPneumoniae',
   'Staphylococcus aureus subsp. aureus'=>'StaphylococcusAureus',
   'Staphylococcus aureus MRSA'=>'StaphylococcusAureus',
+  'Staphylococcus aureus Eflux MLSB MRSA'=>'StaphylococcusAureus',
   'staphylococcus epidermidis'=>'StaphylococcusEpider',
   'Staphyloccocus hominis'=>'StaphylococcusHomini',
+  'Staphylococcus haemolyticus MRCNS MLSB'=>'StaphylococcusHaemol',
   'Klebsiellapneumoniae.'=>'KlebsiellaPneumoniae',
   'Klebsiella pnuESBLemoniae'=>'KlebsiellaPneumoniae',
   'Klebsiella pneuESBLmoniae'=>'KlebsiellaPneumoniae',
@@ -131,6 +133,8 @@ $puvodciMap = array(
   'Escherichia coli haemolytické' => 'EscherichiaColi',
   'Streptococcus anginosus'=>'Streptococcus',
   'Streptococcus agalactiae'=>'Streptococcus',
+  'Streptococcus constelatus'=>'Streptococcus',
+  'Pseuomonas aeruginosa'=>'PseudomansAeruginosa',
   
   'Clostridium'=>'ClostridiumDifficile',//???
   'Clostridiun diffcile'=>'ClostridiumDifficile',
@@ -171,6 +175,7 @@ $puvodciMap = array(
   'neznámo'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'neznámo'),
   'Clostridium perfringens'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'Clostridium perfringens'),
   'Moraxella'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'Moraxella'),
+  'Moraxella catarhalis'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'Moraxella catarhalis'),
   'Citrobacter'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'Citrobacter'),
   'Corynebakter'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'Corynebakter'),
   'uroinfekce'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'Uroinfekce'),

@@ -82,12 +82,12 @@ for ($i=2; $i<=$rows; $i++) {
     }
   }
   
-  if (preg_match('/([0-9]{1,2})[.,]([0-9]{1,2})[.,]([0-9]{4})/', $datumVzniku)) {
+  if (preg_match('/([0-9]{1,2})[.,]+([0-9]{1,2})[.,]+([0-9]{4})/', $datumVzniku)) {
     $datumVzniku=mktime(0, 0, 0,
-      preg_replace('/([0-9]{1,2})[.,]([0-9]{1,2})[.,]([0-9]{4})/', '\2', $datumVzniku),
-      preg_replace('/([0-9]{1,2})[.,]([0-9]{1,2})[.,]([0-9]{4})/', '\1', $datumVzniku),
-      preg_replace('/([0-9]{1,2})[.,]([0-9]{1,2})[.,]([0-9]{4})/', '\3', $datumVzniku));
-    $rok = preg_replace('/([0-9]{1,2})[.,]([0-9]{1,2})[.,]([0-9]{4})/', '\3', $datumVzniku);
+      preg_replace('/([0-9]{1,2})[.,]+([0-9]{1,2})[.,]+([0-9]{4})/', '\2', $datumVzniku),
+      preg_replace('/([0-9]{1,2})[.,]+([0-9]{1,2})[.,]+([0-9]{4})/', '\1', $datumVzniku),
+      preg_replace('/([0-9]{1,2})[.,]+([0-9]{1,2})[.,]+([0-9]{4})/', '\3', $datumVzniku));
+    $rok = preg_replace('/([0-9]{1,2})[.,]+([0-9]{1,2})[.,]+([0-9]{4})/', '\3', $datumVzniku);
   } elseif (preg_match('/([0-9]{1,2})[.,]([0-9]{1,2})[.,]/', $datumVzniku)) {
     if (!$rok) {
       throw new Exception('Neznámý formát data "' . $datumVzniku . '"; chybí rok');
