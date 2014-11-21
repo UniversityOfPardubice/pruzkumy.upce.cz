@@ -28,6 +28,8 @@
     RewriteRule ^dfjp-dalsi-vzdelavani/?$ /17182 [R,L]
     RewriteRule ^dfjp-analyza-skolnich-spoju/?$ /775781 [R,L]
     RewriteRule ^dfjp-volby-as,?/?$ /716972 [R,L]
+    RewriteRule ^dfjp-v4/?$ /688261 [R,L]
+    RewriteRule ^dfjp-v4-(..)/?$ /688261/lang/$1 [R,L]
 
     RewriteRule ^fes-bezpecnostni-rizika/?$ /256877 [R,L]
     
