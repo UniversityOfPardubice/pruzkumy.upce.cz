@@ -214,6 +214,7 @@ $puvodciMap = array(
   'SerraMarces'=>'SerratiaMarcescens',
   'CandGlab'=>'CandidaGlabrata',
   'EscherColi'=>'EscherichiaColi',
+  'SalmEnter'=>'SalmonellaEnteritidi',
 
   'MRSA'=>array('puvodce'=>'StaphylococcusAureus', 'rezistence'=>array('MRSA')),
   'Methicilin/Oxacilin rezistentní Staph.aureus-MRSA'=>array('puvodce'=>'StaphylococcusAureus', 'rezistence'=>array('MRSA')),

@@ -21,6 +21,7 @@ $pracovisteMap = array(
   'GCN-LDN' => array('oddeleni'=>'Geria', 'pracoviste'=>'GCN-LDN', 'odbornost'=>'1U6', 'typPece'=>'N'),
   'INT-5p'  => array('oddeleni'=>'Gastr', 'pracoviste'=>'INT-5p', 'odbornost'=>'1H5', 'typPece'=>'S'),
   'URO-7H6' => array('oddeleni'=>'Urolo', 'pracoviste'=>'URO-7H6', 'odbornost'=>'7H6', 'typPece'=>'S'),
+  'URO-JIP' => array('oddeleni'=>'Urolo', 'pracoviste'=>'URO-JIP', 'odbornost'=>'7I6', 'typPece'=>'I'),
   'GCN-LDN1'=> array('oddeleni'=>'LDN', 'pracoviste'=>'GCN-LDN1', 'odbornost'=>'9U7', 'typPece'=>'N'),
   'GCN-LDN2'=> array('oddeleni'=>'LDN', 'pracoviste'=>'GCN-LDN2', 'odbornost'=>'9U7', 'typPece'=>'N'),//???
   'CHI-JIP1'=> array('oddeleni'=>'Chiru', 'pracoviste'=>'CHI-JIP1', 'odbornost'=>'5I1', 'typPece'=>'I'),
@@ -37,6 +38,7 @@ $pracovisteMap = array(
   'NOV-IMP1'=> array('oddeleni'=>'Novor', 'pracoviste'=>'NOV-IMP1', 'odbornost'=>'3H4', 'typPece'=>'S'),//???
   'NOV-IMP2'=> array('oddeleni'=>'Novor', 'pracoviste'=>'NOV-IMP2', 'odbornost'=>'3H4', 'typPece'=>'S'),//???
   'NOV-3I4' => array('oddeleni'=>'Novor', 'pracoviste'=>'NOV-3I4', 'odbornost'=>'3I4', 'typPece'=>'I'),
+  'NOV-JIP' => array('oddeleni'=>'Novor', 'pracoviste'=>'NOV-JIP', 'odbornost'=>'3I4', 'typPece'=>'I'),
   'NEU-2H9' => array('oddeleni'=>'Neuro', 'pracoviste'=>'NEU-2H9', 'odbornost'=>'2H9', 'typPece'=>'S'),
   'NEU-2I9' => array('oddeleni'=>'Neuro', 'pracoviste'=>'NEU-2I9', 'odbornost'=>'2I9', 'typPece'=>'I'),
   'INT-JIP' => array('oddeleni'=>'Inter', 'pracoviste'=>'INT-JIP', 'odbornost'=>'1I1', 'typPece'=>'I'),
@@ -54,6 +56,9 @@ $pracovisteMap = array(
   'GYN-6H3' => array('oddeleni'=>'Gynek', 'pracoviste'=>'GYN-6H3', 'odbornost'=>'6H3', 'typPece'=>'S'),
   'ONK-4F3' => array('oddeleni'=>'Onkol', 'pracoviste'=>'ONK-4F3', 'odbornost'=>'4F3', 'typPece'=>'S'),//???
   'OCN-7H5' => array('oddeleni'=>'Ocni', 'pracoviste'=>'OCN-7H5', 'odbornost'=>'7H5', 'typPece'=>'S'),
+  'HRU-5H7' => array('oddeleni'=>'HChir', 'pracoviste'=>'HRU-5H7', 'odbornost'=>'5H7', 'typPece'=>'S'),
+  'DET-JIP' => array('oddeleni'=>'Detsk', 'pracoviste'=>'DET-JIP', 'odbornost'=>'3I4', 'typPece'=>'I'),//???
+  'POR-6H3' => array('oddeleni'=>'Porod', 'pracoviste'=>'DET-JIP', 'odbornost'=>'6H3', 'typPece'=>'S'),
 );
 
 $typInfekceMap = array(
@@ -83,10 +88,13 @@ $typInfekceMap = array(
   'Infekce kloubu nebo bursy' => array('simple'=>'Jina', 'spec'=>'Kloub'),
   'Infekce dutiny ustní' => array('simple'=>'Jina', 'spec'=>'Usta'),
   'Popálenina' => array('simple'=>'Jina', 'spec'=>'Popal'),
+  'Jiná asymptomatická močová infekce' => array('simple'=>'IMT', 'spec'=>'AsMoc'),
+  'Jiná  asymptomatická močová infekce' => array('simple'=>'IMT', 'spec'=>'AsMoc'),
   'jiná infekce DCD' => array('simple'=>'Jina', 'spec'=>'Jina'),
   'jiná infekce' => array('simple'=>'Jina', 'spec'=>'Jina'),
   'Jiné neznámé' => array('simple'=>'Jina', 'spec'=>'Jina'),
   'Jiná' => array('simple'=>'Jina', 'spec'=>'Jina'),
+  'Jiné' => array('simple'=>'Jina', 'spec'=>'Jina'),
   '' => array('simple'=>'Jina', 'spec'=>'Jina'),
 );
 
@@ -98,6 +106,7 @@ $klasifikaceMap = array(
   'komunitní sekundární'=>'Sekun',
   'nozokomiální importovaná sekundární'=>'Sekun',
   'nozokomiální neurčená'=>'Neurc',
+  'komunitní neurčená'=>'Neurc',
 );
 $zdrojSekundarniMap = array(
   'močové ústrojí'=>'Urolo',
@@ -109,6 +118,12 @@ $zdrojSekundarniMap = array(
   'gastrointestinální ústrojí'=>'Gastr',
   'pohlavní ústrojí ženy'=>'Gynek',
   'retroperitoneální prostor'=>'RetPe',
+  'dekubitus'=>'Dekub',
+  'centrální nervový systém'=>'CNS',
+  'peritoneální prostor'=>'Perit',
+  'ORL oblast'=>'ORL',
+  'pleurální prostor'=>'Pleur',
+  'mediastinum'=>'Media',
   'jiný'=>'Jiny',
 );
 $intervenceMap = array(
@@ -150,6 +165,9 @@ for ($i=0; $i<$columns; $i++) {
     case 'Validita případu':
     case 'Dat.provedení operace':
     case 'Operatér':
+    case 'Úmrtí':
+    case 'Biologický materiál':
+    case 'Klasifikace rány':
       //Ignorováno
       break;
     case 'Pracoviště':
@@ -485,5 +503,7 @@ foreach($dataPardubice as $pripad) {
       $sql.=', 139998X195X3446' . $puvodce['puvodce'] . '_' . $rez . '="'. mysql_real_escape_string($val, $db) . '"';
     }
   }
-  mysql_query($sql, $db) or throw new Exception("Could not perform select query - " . mysql_error($db) . "\n" . $sql);
+  if (!mysql_query($sql, $db)) {
+    throw new Exception("Could not perform select query - " . mysql_error($db) . "\n" . $sql);
+  }
 }
