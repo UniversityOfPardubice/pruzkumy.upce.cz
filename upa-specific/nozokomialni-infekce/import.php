@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 header('Content-Type: text/html; charset=UTF-8');
 if(!(isset($_FILES['soubory']))) {
   echo '<form method="post" enctype="multipart/form-data">

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 $odbornostiMap = array(
   '1H1' => array('odbornost'=>'1H1', 'typPece'=>'S', 'oddeleni'=>'Inter'),
   '1I1' => array('odbornost'=>'1I1', 'typPece'=>'I', 'oddeleni'=>'Inter'),
