@@ -35,7 +35,7 @@ for ($fileId = 0; $fileId < sizeof($_FILES['soubory']['name']); $fileId++) {
       require 'import-pardubice.php';
       break;
     default:
-      die('Neznámý import pro nemocnici ' . $nemocnice);
+      throw new Exception('Neznámý import pro nemocnici ' . $nemocnice);
   }
 
   echo '<table border="1"><tr><th>Oddělení</th><th>Pracoviště</th><th>Typ péče</th><th>Odbornost</th><th>Datum vzniku</th><th>Typ infekce</th><th>Původci</th><th>Jiný původce</th><th>Rezistence</th><th>Poznámka</th></tr>';
@@ -76,7 +76,9 @@ for ($fileId = 0; $fileId < sizeof($_FILES['soubory']['name']); $fileId++) {
     $sql.= ', `725855X194X3435`="'.mysql_real_escape_string($pripad['poznamka'], $db).'"';
     $sql.= ', `725855X194X3421`="'.mysql_real_escape_string($nemocnice, $db).'"';
     echo '<td>'.nl2br($pripad['poznamka']).'</td>';
-    mysql_query($sql, $db) or die("Could not perform select query - " . mysql_error($db) . "\n" . $sql);
+    if (!mysql_query($sql, $db)) {
+      throw new Exception("Could not perform select query - " . mysql_error($db) . "\n" . $sql);
+    }
     echo '</tr>';
   }
   echo '</table>';

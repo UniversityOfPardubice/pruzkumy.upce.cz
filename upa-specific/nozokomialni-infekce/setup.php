@@ -140,9 +140,11 @@ $puvodciMap = array(
   'Enterobacter sp.'=>'Enterobacter',
   'Enterobacter'=>'Enterobacter',
   'Enterobacter species'=>'Enterobacter',
+  'Enterobacter hormaechei'=>'Enterobacter',
   'Proteus'=>'Proteus',
   'Enterococcus'=>'Enterococcus',
   'Enterococcus species'=>'Enterococcus',
+  'Enterococcus avium'=>'Enterococcus',
   'Pseudomonas'=>'Pseudomanas',
   'Morganella'=>'Morganella',
   'Candida'=>'Candida',
@@ -176,6 +178,7 @@ $puvodciMap = array(
   'Burkholderia cepacia'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'Burkholderia cepacia'),
   'Providentia stuartii'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'Providentia stuartii'),
   'Seratia marcescens'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'Serratia marcescens'),
+  'Corynebacterium aurimucosum'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'Corynebacterium aurimucosum'),
   
   'StaphAureus'=>'StaphylococcusAureus',
   'ProtMira'=>'ProteusMirabilis',
@@ -208,6 +211,7 @@ $puvodciMap = array(
   'nediagnostikován'=>'',
   'dosud není kultivace' => '',
   'není určen' => '',
+  'neg' => '',
 );
 
 $rezistenceMap = array(

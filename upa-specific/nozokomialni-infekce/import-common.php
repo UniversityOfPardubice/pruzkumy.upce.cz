@@ -32,10 +32,10 @@ for ($i=2; $i<=$rows; $i++) {
   $puvodceJiny = array();
   
   if (!isset($odbornostiMap[$odbornost])) {
-    die('Neznámá odbornost "' . $odbornost . '"');
+    throw new Exception('Neznámá odbornost "' . $odbornost . '"');
   }
   if (!isset($typyInfekciMap[$typInfekce])) {
-    die('Neznámý typ infekce "' . $typInfekce. '"');
+    throw new Exception('Neznámý typ infekce "' . $typInfekce. '"');
   }
   
   $puvodciExploded = preg_split('/[,;]/', $puvodciRaw);
@@ -45,7 +45,7 @@ for ($i=2; $i<=$rows; $i++) {
     $p = trim($p);
     if ($p) {
       if (!isset($puvodciMap[$p])) {
-        die('Neznámý pùvodce "' . $p . '"');
+        throw new Exception('Neznámý pùvodce "' . $p . '"');
       }
       if (is_array($puvodciMap[$p])) {
         $puvodci[] = $puvodciMap[$p]['puvodce'];
@@ -69,7 +69,7 @@ for ($i=2; $i<=$rows; $i++) {
     $r = trim($r);
     if ($r) {
       if (!isset($rezistenceMap[$r])) {
-        die('Neznámá rezistence "' . $r . '"');
+        throw new Exception('Neznámá rezistence "' . $r . '"');
       }
       if (is_array($rezistenceMap[$r])) {
         if (isset($rezistenceMap[$r]['rezistence'])) {
@@ -90,7 +90,7 @@ for ($i=2; $i<=$rows; $i++) {
     $rok = preg_replace('/([0-9]{1,2})[.,]([0-9]{1,2})[.,]([0-9]{4})/', '\3', $datumVzniku);
   } elseif (preg_match('/([0-9]{1,2})[.,]([0-9]{1,2})[.,]/', $datumVzniku)) {
     if (!$rok) {
-      die('Neznámý formát data "' . $datumVzniku . '"; chybí rok');
+      throw new Exception('Neznámý formát data "' . $datumVzniku . '"; chybí rok');
     }
     $datumVzniku=mktime(0, 0, 0,
       preg_replace('/([0-9]{1,2})[.,]([0-9]{1,2})[.,]/', '\2', $datumVzniku),
@@ -99,7 +99,7 @@ for ($i=2; $i<=$rows; $i++) {
   } elseif (is_numeric($datumVzniku)) {
     $datumVzniku=($datumVzniku - 25569) * 86400;
   } else {
-    die('Neznámý formát data "' . $datumVzniku . '"');
+    throw new Exception('Neznámý formát data "' . $datumVzniku . '"');
   }
   $data[] = array(
     'oddeleni'=>$odbornostiMap[$odbornost]['oddeleni'],

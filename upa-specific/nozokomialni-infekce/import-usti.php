@@ -44,11 +44,11 @@ for ($sheet = 1; $sheet<=12; $sheet++) {
     $puvodceJiny = array();
 
     if (!isset($oddeleniMap[$oddeleni])) {
-      die('Neznámé oddělení "' . $oddeleni . '"');
+      throw new Exception('Neznámé oddělení "' . $oddeleni . '"');
     }
     if (!isset($typyInfekciMap[$typInfekce])) {
     echo"<pre>";print_r($typyInfekciMap);
-      die('Neznámý typ infekce "' . $typInfekce. '"');
+      throw new Exception('Neznámý typ infekce "' . $typInfekce. '"');
     }
 
     $rezistence = array();
@@ -57,7 +57,7 @@ for ($sheet = 1; $sheet<=12; $sheet++) {
       $p = trim($p);
       if ($p) {
         if (!isset($puvodciMap[$p])) {
-          die('Neznámý původce "' . $p . '"');
+          throw new Exception('Neznámý původce "' . $p . '"');
         }
         if (is_array($puvodciMap[$p])) {
           $puvodci[] = $puvodciMap[$p]['puvodce'];
@@ -80,7 +80,7 @@ for ($sheet = 1; $sheet<=12; $sheet++) {
       $r = trim($r);
       if ($r) {
         if (!isset($rezistenceMap[$r])) {
-          die('Neznámá rezistence "' . $r . '"');
+          throw new Exception('Neznámá rezistence "' . $r . '"');
         }
         if (is_array($rezistenceMap[$r])) {
           if (isset($rezistenceMap[$r]['rezistence'])) {
@@ -106,7 +106,7 @@ for ($sheet = 1; $sheet<=12; $sheet++) {
     } elseif (is_numeric($datumVzniku)) {
       $datumVzniku=($datumVzniku - 25569) * 86400;
     } else {
-      die('Neznámý formát data "' . $datumVzniku . '"');
+      throw new Exception('Neznámý formát data "' . $datumVzniku . '"');
     }
     $data[] = array(
       'oddeleni'=>$oddeleniMap[$oddeleni]['oddeleni'],
@@ -124,4 +124,4 @@ for ($sheet = 1; $sheet<=12; $sheet++) {
 }
 
 $sql = 'DELETE FROM lime_survey_725855 WHERE `725855X194X3421`="'.mysql_real_escape_string($nemocnice, $db).'"';
-mysql_query($sql, $db) or die("Could not perform select query - " . mysql_error($db) . "\n" . $sql);
+mysql_query($sql, $db) or throw new Exception("Could not perform select query - " . mysql_error($db) . "\n" . $sql);

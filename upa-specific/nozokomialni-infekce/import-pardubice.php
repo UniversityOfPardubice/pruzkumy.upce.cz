@@ -227,7 +227,7 @@ for ($i=0; $i<$columns; $i++) {
       $sloupce['datumIntervence'] = $i;
       break;
     default:
-      die('Neznámý sloupec v tabulce: "' . $sloupec .  '"');
+      throw new Exception('Neznámý sloupec v tabulce: "' . $sloupec .  '"');
   }
 }
 
@@ -265,7 +265,7 @@ for ($i=2; $i<=$rows; $i++) {
   } elseif (is_numeric($datumVzniku)) {
     $datumVzniku=($datumVzniku - 25569) * 86400;
   } else {
-    die('Neznámý formát data vzniku "' . $datumVzniku . '"');
+    throw new Exception('Neznámý formát data vzniku "' . $datumVzniku . '"');
   }
   $klic = $kodPripadu . ';' . date('Y-m-d', $datumVzniku);
   if (!isset($dataSpec[$klic])) {
@@ -309,7 +309,7 @@ for ($i=2; $i<=$rows; $i++) {
         } elseif (is_numeric($datumIntervence)) {
           $dataSpec[$klic]['datumIntervence']=($datumIntervence - 25569) * 86400;
         } else {
-          die('Neznámý formát data intervence "' . $datumIntervence . '"');
+          throw new Exception('Neznámý formát data intervence "' . $datumIntervence . '"');
         }
       } else {
         $dataSpec[$klic]['datumIntervence'] = '';
@@ -363,7 +363,7 @@ foreach ($dataSpec as $pripad) {
   $poznamky = $pripad['poznamky'];
   
   if (!isset($pracovisteMap[$pripad['pracoviste']])) {
-    die('Neznámé pracoviště "' . $pripad['pracoviste'] . '"');
+    throw new Exception('Neznámé pracoviště "' . $pripad['pracoviste'] . '"');
   }
   $dataItem['oddeleni'] = $pracovisteMap[$pripad['pracoviste']]['oddeleni'];
   $dataItem['pracoviste'] = $pracovisteMap[$pripad['pracoviste']]['pracoviste'];
@@ -371,7 +371,7 @@ foreach ($dataSpec as $pripad) {
   $dataItem['typPece'] = $pracovisteMap[$pripad['pracoviste']]['typPece'];  
   
   if (!isset($typInfekceMap[$pripad['typInfekce']])) {
-    die('Neznámý typ infekce "' . $pripad['typInfekce'] . '"');
+    throw new Exception('Neznámý typ infekce "' . $pripad['typInfekce'] . '"');
   }
   $dataItem['typInfekce'] = $typInfekceMap[$pripad['typInfekce']]['simple'];  
   $dataItem['typInfekceSpec'] = $typInfekceMap[$pripad['typInfekce']]['spec'];  
@@ -384,7 +384,7 @@ foreach ($dataSpec as $pripad) {
   $dataItem['rezistence'] = array();
   foreach ($pripad['puvodci'] as $puvodce=>$p) {
     if (!isset($puvodciMap[$puvodce])) {
-      die('Neznámý původce "' . $puvodce . '"');
+      throw new Exception('Neznámý původce "' . $puvodce . '"');
     }
     $dataItem['puvodci'][] = $puvodciMap[$puvodce];
     if ($puvodciMap[$puvodce]) {
@@ -412,7 +412,7 @@ foreach ($dataSpec as $pripad) {
   /*spec*/
   if ($pripad['klasifikace']) {
     if (!isset($klasifikaceMap[$pripad['klasifikace']])) {
-      die('Neznámá klasifikace "' . $pripad['klasifikace'] . '"');
+      throw new Exception('Neznámá klasifikace "' . $pripad['klasifikace'] . '"');
     }
     $dataItem['klasifikace'] = $klasifikaceMap[$pripad['klasifikace']];
   } else {
@@ -420,7 +420,7 @@ foreach ($dataSpec as $pripad) {
   }
   if ($pripad['zdrojSekundarni']) {
     if (!isset($zdrojSekundarniMap[$pripad['zdrojSekundarni']])) {
-      die('Neznámý sekundární zdroj "' . $pripad['zdrojSekundarni'] . '"');
+      throw new Exception('Neznámý sekundární zdroj "' . $pripad['zdrojSekundarni'] . '"');
     }
     $dataItem['zdrojSekundarni'] = $zdrojSekundarniMap[$pripad['zdrojSekundarni']];
   } else {
@@ -433,7 +433,7 @@ foreach ($dataSpec as $pripad) {
   }
   if ($pripad['intervence']) {
     if (!isset($intervenceMap[$pripad['intervence']])) {
-      die('Neznámá intervence "' . $pripad['intervence'] . '"');
+      throw new Exception('Neznámá intervence "' . $pripad['intervence'] . '"');
     }
     $dataItem['intervence'] = $intervenceMap[$pripad['intervence']];
   } else {
@@ -446,7 +446,7 @@ foreach ($dataSpec as $pripad) {
   }
   if ($pripad['vznik']) {
     if (!isset($vznikMap[$pripad['vznik']])) {
-      die('Neznámý vznik "' . $pripad['vznik'] . '"');
+      throw new Exception('Neznámý vznik "' . $pripad['vznik'] . '"');
     }
     $dataItem['vznik'] = $vznikMap[$pripad['vznik']];
   } else {
@@ -485,5 +485,5 @@ foreach($dataPardubice as $pripad) {
       $sql.=', 139998X195X3446' . $puvodce['puvodce'] . '_' . $rez . '="'. mysql_real_escape_string($val, $db) . '"';
     }
   }
-  mysql_query($sql, $db) or die("Could not perform select query - " . mysql_error($db) . "\n" . $sql);
+  mysql_query($sql, $db) or throw new Exception("Could not perform select query - " . mysql_error($db) . "\n" . $sql);
 }
