@@ -32,6 +32,7 @@ $typyInfekciMap = array(
   'dolní dýchací cesty'=>'IRT',
   'dýchacího traktu'=>'IRT',
   'bronchopneumonioe'=>'IRT',
+  'pneumonie'=>'IRT',
   'infekce v místě chirurgického výkonu'=>'IMChV',
   'IMC'=>'IMChV',
   'v místě chirurgického výkonu'=>'IMChV',
@@ -48,6 +49,7 @@ $typyInfekciMap = array(
   'rotavirová enteritida'=>'GENT',
   'enterokolitida'=>'GENT',
   'CDI'=>'GENT',
+  'Pseudomembranozní kolitida'=>'GENT',
   'jiná'=>'Jina',
   'ranná'=>'Jina',
   'dekubit'=>'Jina',
@@ -60,6 +62,7 @@ $puvodciMap = array(
   'Streptococcus pyogenes'=>'StreptococcusPyogene',
   'Streptococcus pneumoniae'=>'StreptococcusPneumon',
   'Streptococcus sp. jiný'=>'Streptococcus',
+  'Streptococcus species'=>'Streptococcus',
   'Enterococcus faecalis'=>'EnterococcusFaecalis',
   'Enterococcus faecium'=>'EnterococcusFaecium',
   'Enterococcus sp. jiný'=>'Enterococcus',
@@ -94,6 +97,7 @@ $puvodciMap = array(
   'Pseudomonas aeruginosa'=>'PseudomansAeruginosa',
   'Pseudomonas sp. jiná'=>'Pseudomanas',
   'Acinetobacter baumanii'=>'AcinetobacterBaumani',
+  'Acinetobacter species'=>'Acinetobacter',
   'Acinetobacter sp. jiný'=>'Acinetobacter',
   'Acinetobacter sp.'=>'Acinetobacter',
   'Acinetobacter'=>'Acinetobacter',
@@ -101,6 +105,7 @@ $puvodciMap = array(
   'Candida crusei'=>'CandidaCrusei',
   'Candida glabrata'=>'CandidaGlabrata',
   'Candida tropicalis'=>'CandidaTropicalis',
+  'Candida species'=>'Candida',
   'Candida sp. jiná'=>'Candida',
   'Candida non albicans'=>'Candida',
   'Haemophilus influenzae'=>'HaemphilusInfluenzae',
@@ -184,6 +189,8 @@ $puvodciMap = array(
   'Providentia stuartii'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'Providentia stuartii'),
   'Seratia marcescens'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'Serratia marcescens'),
   'Corynebacterium aurimucosum'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'Corynebacterium aurimucosum'),
+  'Campylobacter jejuni subsp. jejuni'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'Campylobacter jejuni subsp. jejuni'),
+  'Stenotrofomonás maltophilia'=>array('puvodce'=>'Jiny', 'puvodceJiny'=>'Stenotrofomonás maltophilia'),
   
   'StaphAureus'=>'StaphylococcusAureus',
   'ProtMira'=>'ProteusMirabilis',
@@ -217,6 +224,8 @@ $puvodciMap = array(
   'dosud není kultivace' => '',
   'není určen' => '',
   'neg' => '',
+  'nevíme' => '',
+  'kultivace nebyla' => '',
 );
 
 $rezistenceMap = array(

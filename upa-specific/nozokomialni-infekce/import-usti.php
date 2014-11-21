@@ -124,4 +124,6 @@ for ($sheet = 1; $sheet<=12; $sheet++) {
 }
 
 $sql = 'DELETE FROM lime_survey_725855 WHERE `725855X194X3421`="'.mysql_real_escape_string($nemocnice, $db).'"';
-mysql_query($sql, $db) or throw new Exception("Could not perform select query - " . mysql_error($db) . "\n" . $sql);
+if (!mysql_query($sql, $db)) {
+  throw new Exception("Could not perform select query - " . mysql_error($db) . "\n" . $sql);
+}
