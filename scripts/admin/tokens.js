@@ -55,8 +55,8 @@ function addSelectedParticipantsToCPDB()
         $("#addcpdb").load(postUrl, {
             participantid:token},function(){
                 $(location).attr('href',attMapUrl+'/'+survey_id);
-        });        
-    }    
+        });
+    }
 
     /*$(":checked").each(function() {
     token.push($(this).attr('name'));
@@ -333,14 +333,14 @@ $(document).ready(function() {
                 else
                 {
                     $.post(inviteurl, {tokenids: $("#displaytokens").getGridParam("selarrrow").join("|")}, function (data) {
-                        var win=window.open('about:blank');
+                        var win=window.open();
                         with(win.document)
                         {
                             open();
                             write(data);
                             close();
                         }
-                    });                    
+                    });
                 }
             }
         });
@@ -358,14 +358,14 @@ $(document).ready(function() {
                 else
                 {
                     $.post(remindurl, {tokenids: $("#displaytokens").getGridParam("selarrrow").join("|")}, function (data) {
-                        var win=window.open('about:blank');
+                        var win=window.open();
                         with(win.document)
                         {
                             open();
                             write(data);
                             close();
                         }
-                    });                    
+                    });
                 }
             }
         });
@@ -391,7 +391,7 @@ $(document).ready(function() {
     }
     if (bParticipantPanelPermission==true)
     {
-        $("#displaytokens").navSeparatorAdd("#pager",{});        
+        $("#displaytokens").navSeparatorAdd("#pager",{});
         $("#displaytokens").navButtonAdd('#pager', {
             caption:"",
             title:viewParticipantsLink,

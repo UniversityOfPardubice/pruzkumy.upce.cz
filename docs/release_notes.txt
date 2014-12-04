@@ -59,6 +59,47 @@ Thank you to everyone who helped with this new release!
 CHANGE LOG
 ------------------------------------------------------
 
+Changes from 2.05+ (build 141123) to 2.05+ (build 141126) Nov 26, 2014
+-Fixed issue #9140: VV-Import not working with MSSQL (Carsten Schmitz)
+-Fixed issue #9283: More than 255 characters can be entered into a short text question on Postgres and MSSQL which leads to an error (Carsten Schmitz)
+-Fixed issue #9344: AND rules with ATTRIBUTE disappear when modify and importing the survey (Denis Chenu)
+-Fixed issue #9371: Invitations/reminders cannot be sent to selected tokens (Carsten Schmitz)
+#Updated translation: Japanese by yamatt
+
+Changes from 2.05+ (build 141113) to 2.05+ (build 141123) Nov 23, 2014
+-Fixed issue #8589: PHP object injection in surveys (Carsten Schmitz)
+-Fixed issue #9282: Deactivating survey with tokens fails with postgres - patch provided by random1 (Carsten Schmitz)
+-Fixed issue #9317: Participants CSV import ignores delimiter setting (Carsten Schmitz)
+-Fixed issue #9322: E-mail template content lost when you trying to save after session timeout (Carsten Schmitz)
+-Fixed issue #9332: Date question + debug > 1 : broken Reorder survey (gabrieljenik)
+-Fixed issue #9338: Database name text is forced to lowercase (Carsten Schmitz)
+-Fixed issue #9358: Strange characters in email notifications when using Chrome browser (Carsten Schmitz)
+-Fixed issue #9361: HTML in group name breaks question reordering (Carsten Schmitz)
+-Fixed issue #9362: Loss of attribute descriptions on update (Carsten Schmitz)
+-Fixed issue #9365: The method list_question doesn't return subquestions (Carsten Schmitz)
+-Fixed issue: Ugly default font for PDF output (Carsten Schmitz)
+#Updated translation: Dutch by Han
+#Updated translation: Dutch (Informal) by Han, atvoogt
+#Updated translation: French (France) by MVT, DenisChenu
+#Updated translation: German by actxcellence, jlpd, pseitz
+#Updated translation: German (Informal) by actxcellence
+#Updated translation: Greek by kiolalis
+#Updated translation: Polish by elisa
+#Updated translation: Portuguese (Portugal) by algarvio
+#Updated translation: Spanish (Spain) by aesteban, artasom
+
+Changes from 2.05+ (build 141110) to 2.05+ (build 141113) Nov 13, 2014
+-Fixed issue #8806: Questionindex to 2 allows invalid survey submitted (Denis Chenu)
+-Fixed issue #9198: Complete group's navigation can stop before clicked group (Denis Chenu)
+-Fixed issue #9285: Index complete + mandatory question: Undefined notice (Denis Chenu)
+-Fixed issue #9328: Language changer causes warning for mandatory questions (Denis Chenu)
+-Fixed issue #9342: Attribute descriptions are not deleted in database when field is deleted (Carsten Schmitz)
+-Fixed issue #9351: Database error during update when using a database other than MySQL (Carsten Schmitz)
+-Fixed issue #9355: Group rights cannot be set (Carsten Schmitz)
+-Fixed issue: Black background with PDF charts when using Linux (Carsten Schmitz)
+-Updated translation: Finnish by morbid
+-Updated translation: Polish by elisa
+
 Changes from 2.05+ (build 141109) to 2.05+ (build 141110) Nov 10, 2014
 Fixed issue #9351: Error on update for non-MySQL installations
 
