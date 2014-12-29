@@ -70,8 +70,6 @@ $config['defaultlang']        =   'en';             // The default language to u
 $config['timeadjust']         =   0;                // Number of hours to adjust between your webserver local time and your own local time (for datestamping responses)
 $config['allowexportalldb']   =   0;                // 0 will only export prefixed tables when doing a database dump. If set to 1 ALL tables in the database will be exported
 $config['maxdumpdbrecords']   =   500;              // The maximum number of records that would be ouputted in a go during a database backup. Reduce this number if you're getting errors while backing up the entire database.
-$config['allowmandbackwards'] =   1;                // Allow moving backwards (ie: << prev) through survey if a mandatory question
-// has not been answered. 1=Allow, 0=Deny
 $config['deletenonvalues']    =   1;                // By default, LimeSurvey does not save responses to conditional questions that haven't been answered/shown. To have LimeSurvey save these responses change this value to 0.
 $config['stringcomparizonoperators']   =   0;                // By default, LimeSurvey assumes the numrical order for comparizon operators in conditions. If you need string comparizon operators, set this parameter to 1
 $config['shownoanswer']       =   1;                // Show 'no answer' for non mandatory questions ( 0 = no , 1 = yes , 2 = survey admin can choose )
@@ -367,6 +365,12 @@ $config['notsupportlanguages'] = array(
     );
 $config['pdffontsize']    = 9;                       //Fontsize for normal text; Surveytitle is +4; grouptitle is +2
 $config['pdforientation'] = 'P';                     // Set L for Landscape or P for portrait format
+$config['pdfshowheader'] = 'N';           // Show header in pdf answer export
+$config['pdflogofile'] = 'logo_pdf.png';  // File name of logo for single answer export. Path is template path, i.e. template/default/logo_pdf.png.
+                                          // If not found, resulting pdf doesn't have header. A large image implies slower pdf generation.
+$config['pdflogowidth'] = '50';           // Logo width
+$config['pdfheadertitle'] = '';           // Header title (bold font). If this config param is empty and header is enabled, site name is used
+$config['pdfheaderstring'] = '';          // Header string (under title). If this config param is empty and header is enabled, survey name is used
 
 // QueXML-PDF: If set to true, the printable_help attribute will be visible on the exported PDF questionnaires
 // If used, the appearance (font size, justification, etc.) may be adjusted by editing td.questionHelpBefore and $helpBeforeBorderBottom of quexml.

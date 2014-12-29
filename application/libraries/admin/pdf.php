@@ -195,6 +195,30 @@ class pdf extends TCPDF {
   private $_config = array();
 
   /**
+   * Base font size for answer PDF export
+   *
+   * @var int
+   * @access private
+   */
+  private $_ibaseAnswerFontSize = 12;
+
+  /**
+   * Cell height for answer PDF export
+   *
+   * @var int
+   * @access private
+   */
+  private $_iCellHeight = 6;
+
+  /**
+   * Survey Information (preventing from passing to methods every time)
+   *
+   * @var array
+   * @access private
+   */
+  private $_aSurveyInfo = array();
+
+  /**
    * Set _config for pdf
    * @access public
    * @param mixed $tcpdf
@@ -601,5 +625,163 @@ class pdf extends TCPDF {
     $text = html_entity_decode($text,null,'UTF-8');
     $text = str_replace("\t",' ',$text);
     return strip_tags($text);
+  }
+  /**
+   *
+   * Create Answer PDF document, set metadata and set title
+   * @param $aSurveyInfo - Survey Information (preventing from passing to methods every time)
+   * @param $aPdfLanguageSettings - Pdf language settings
+   * @param $sSiteName - LimeSurvey site name (header and metadata)
+   * @param $sSurveyName - Survey name (header, metadata and title),
+   * @param $sDefaultHeaderString - TCPDF header string
+   * @return unknown_type
+   */
+  function initAnswerPDF($aSurveyInfo, $aPdfLanguageSettings, $sSiteName, $sSurveyName, $sDefaultHeaderString = '')
+  {
+    if (empty($sDefaultHeaderString))
+      $sDefaultHeaderString = $sSurveyName;
+
+    $this->_aSurveyInfo = $aSurveyInfo;
+    $this->SetAuthor($sSiteName);
+    $this->SetTitle($sSurveyName);
+    $this->SetSubject($sSurveyName);
+    $this->SetKeywords($sSurveyName);
+
+    $this->SetFont($aPdfLanguageSettings['pdffont']);
+    $this->_ibaseAnswerFontSize = $aPdfLanguageSettings['pdffontsize'];
+    $this->_iCellHeight = ceil($this->_ibaseAnswerFontSize / 2);
+    $this->setLanguageArray($aPdfLanguageSettings['lg']);
+
+    $this->addHeader($aPdfLanguageSettings, $sSiteName, $sDefaultHeaderString);
+    $this->AddPage();
+    $this->SetFillColor(220, 220, 220);
+
+    $this->addTitle($sSurveyName);
+  }
+
+  /**
+   *
+   * Add title to pdf
+   * @param $sTitle - Title
+   * @param $sSubtitle - Subtitle
+   * @return unknown_type
+   */
+  function addTitle($sTitle, $sSubtitle="")
+  {
+    if(!empty($sTitle))
+    {
+      $this->ln(1);
+      $this->SetFontSize($this->_ibaseAnswerFontSize + 6);
+      $oPurifier = new CHtmlPurifier();
+      $sTitleHTML = html_entity_decode(stripJavaScript($oPurifier->purify($sTitle)),ENT_COMPAT);
+      $this->WriteHTMLCell(0, $this->_iCellHeight, $this->getX(), $this->getY(), $sTitleHTML, 0, 1, false, true, 'C');
+      if (!empty($sSubtitle))
+      {
+        $this->ln(1);
+        $this->SetFontSize($this->_ibaseAnswerFontSize + 2);
+        $sSubtitleHTML = html_entity_decode(stripJavaScript($oPurifier->purify($sSubtitle)),ENT_COMPAT);
+        $this->WriteHTMLCell(0, $this->_iCellHeight, $this->getX(), $this->getY(), $sSubtitleHTML, 0, 1, false, true, 'C');
+      }
+      $this->ln(6);
+      $this->SetFontSize($this->_ibaseAnswerFontSize);
+    }
+  }
+
+  /**
+   *
+   * Add header to pdf
+   * @param $aPdfLanguageSettings - Pdf language settings
+   * @param $sSiteName - LimeSurvey site name (header and metadata)
+   * @param $sDefaultHeaderString - TCPDF header string
+   * @return unknown_type
+   */
+  function addHeader($aPdfLanguageSettings, $sSiteName, $sDefaultHeaderString)
+  {
+    $sLogoFileName = Yii::app()->getConfig('pdflogofile');
+    if (Yii::app()->getConfig('pdfshowheader')=='Y' && file_exists(K_PATH_IMAGES.$sLogoFileName))
+    {
+      $sHeaderTitle = Yii::app()->getConfig('pdfheadertitle');
+      if ($sHeaderTitle == '') $sHeaderTitle = $sSiteName;
+      $sHeaderString = Yii::app()->getConfig('pdfheaderstring');
+      if ($sHeaderString == '') $sHeaderString = $sDefaultHeaderString;
+
+      $this->SetHeaderData($sLogoFileName, Yii::app()->getConfig('pdflogowidth'), $sHeaderTitle, $sHeaderString);
+      $this->SetHeaderFont(Array($aPdfLanguageSettings['pdffont'], '', $this->_ibaseAnswerFontSize - 2));
+      $this->SetFooterFont(Array($aPdfLanguageSettings['pdffont'], '', $this->_ibaseAnswerFontSize - 2));
+    }
+  }
+
+  /**
+   *
+   * Add GID text to PDF
+   * @param $sFname - Answer field text
+   * @param $bAllowBreakPage - Allow break cell in two pages
+   * @return unknown_type
+   */
+  function addGidAnswer($sFname, $bAllowBreakPage=false)
+  {
+    $oPurifier = new CHtmlPurifier();
+    $sAnswerHTML = html_entity_decode(stripJavaScript($oPurifier->purify($sFname)),ENT_COMPAT);
+    $sData['thissurvey']=$this->_aSurveyInfo;
+    $sAnswerHTML = templatereplace($sAnswerHTML, array() , $sData, '', $this->_aSurveyInfo['anonymized']=="Y",NULL, array(), true);
+
+    $startPage = $this->getPage();
+    $this->startTransaction();
+    $this->ln(6);
+    $this->SetFontSize($this->_ibaseAnswerFontSize + 2);
+    $this->WriteHTMLCell(0, $this->_iCellHeight, $this->getX(), $this->getY(), $sAnswerHTML, 0, 1, false, true, 'L');
+    $this->ln(2);
+    if ($this->getPage() != $startPage && !$bAllowBreakPage)
+    {
+      $this->rollbackTransaction(true);
+      $this->AddPage();
+      $this->addGidAnswer($sFname,true); // Second param = true avoid an endless loop if a cell is longer than a page
+    }
+    else
+    {
+      $this->commitTransaction();
+    }
+  }
+
+  /**
+   *
+   * Add answer to PDF
+   *
+   * @param $sQuestion - Question field text array
+   * @param $sResponse - Answer field text array
+   * @param $bReplaceExpressions - Try to replace LimeSurvey Expressions. This is false when exporting answers PDF from admin GUI
+   *                               because we can not interpret expressions so just purify.
+   *                               TODO: Find a universal valid method to interpret expressions
+   * @param $bAllowBreakPage - Allow break cell in two pages
+   * @return unknown_type
+   */
+  function addAnswer($sQuestion, $sResponse, $bReplaceExpressions=true, $bAllowBreakPage=false)
+  {
+    $oPurifier = new CHtmlPurifier();
+    $sQuestionHTML = str_replace('-oth-','',$sQuestion); // Copied from Writer::stripTagsFull. Really necessary?
+    $sQuestionHTML = html_entity_decode(stripJavaScript($oPurifier->purify($sQuestionHTML)),ENT_COMPAT);
+    if ($bReplaceExpressions)
+    {
+        $sData['thissurvey']=$this->_aSurveyInfo;
+        $sQuestionHTML = templatereplace($sQuestionHTML, array() , $sData, '', $this->_aSurveyInfo['anonymized']=="Y",NULL, array(), true);
+    }
+    $sResponse = flattenText($sResponse, false, true, 'UTF-8', false);
+
+    $startPage = $this->getPage();
+    $this->startTransaction();
+    $this->SetFontSize($this->_ibaseAnswerFontSize);
+    $this->WriteHTMLCell(0, $this->_iCellHeight, $this->getX(), $this->getY(), $sQuestionHTML, 1, 1, true, true, 'L');
+    $this->MultiCell(0, $this->_iCellHeight, $sResponse, 1, 'L', 0, 1, '', '', true);
+    $this->ln(2);
+    if ($this->getPage() != $startPage && !$bAllowBreakPage)
+    {
+      $this->rollbackTransaction(true);
+      $this->AddPage();
+      $this->addAnswer($sQuestion,$sResponse,$bReplaceExpressions,true); // "Last param = true" prevents an endless loop if a cell is longer than a page
+    }
+    else
+    {
+      $this->commitTransaction();
+    }
   }
 }
