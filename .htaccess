@@ -24,6 +24,7 @@
     RewriteRule ^telefony2013/?$ /224938 [R,L]
     RewriteRule ^jvs-zamestnanci/?$ /718541 [R,L]
     RewriteRule ^jvs-studenti/?$ /528818 [R,L]
+    RewriteRule ^menza/?$ /834349 [R,L]
     
     RewriteRule ^dfjp-dalsi-vzdelavani/?$ /17182 [R,L]
     RewriteRule ^dfjp-analyza-skolnich-spoju/?$ /775781 [R,L]
